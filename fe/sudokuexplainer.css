@@ -1,0 +1,14 @@
+table {
+  border-collapse: collapse;
+}
+
+.cell {
+  border: 1px solid black;
+  width: 2rem;
+  height: 2rem;
+  text-align: center;
+}
+
+.focusedCell {
+  background-color: teal;
+}
