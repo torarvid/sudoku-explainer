@@ -1,3 +1,6 @@
+import { solve } from './solver.js'
+import { SudokuHelper } from './sudokuhelper.js'
+
 function cellClick(e) {
     focusCell(e.target)
 }
@@ -64,18 +67,21 @@ function focusNextCell() {
     }
 }
 
-function saveCurrentValues() {
+function getValues() {
     const values = []
     grid.childNodes.forEach(row => {
         const rowValues = []
         row.childNodes.forEach(cell => {
-            rowValues.push(cell.textContent)
+            rowValues.push(cell.textContent | 0) // convert to number
         })
         values.push(rowValues)
     })
-    const stringValues = values.toString()
-    console.log('V', stringValues);
-    window.localStorage.setItem('grid', stringValues);
+    return values
+}
+
+function saveCurrentValues() {
+    const values = getValues()
+    window.localStorage.setItem('grid', JSON.stringify(values));
 }
 
 function loadCurrentValues() {
@@ -83,12 +89,15 @@ function loadCurrentValues() {
     if (!stringValues) {
         return
     }
-    const values = stringValues.split(',')
-    values.forEach((value, index) => {
-        const row = grid.childNodes[Math.floor(index / 9)]
-        const cell = row.childNodes[index % 9]
-        cell.textContent = value
+    const values = JSON.parse(stringValues)
+    values.forEach((row, index) => {
+        const r = grid.childNodes[index]
+        row.forEach((value, rIndex) => {
+            const cell = r.childNodes[rIndex]
+            cell.textContent = value
+        })
     })
+    return values
 }
 
 function setFocusedValue(value) {
@@ -97,17 +106,11 @@ function setFocusedValue(value) {
     saveCurrentValues()
 }
 
-const content = document.getElementById('content')
-content.appendChild(grid)
-
-focusCellAt(0, 0)
-loadCurrentValues()
-
 document.onkeydown = (e) => {
     switch (e.code) {
         case 'Tab':
         case 'Space':
-            focusNextCell()
+            setFocusedValue(null)
             break
         case 'KeyT':
             setFocusedValue('1')
@@ -141,3 +144,19 @@ document.onkeydown = (e) => {
             break
     }
 }
+
+function startSolving() {
+    const values = getValues()
+    const helper = new SudokuHelper()
+    solve(values, helper)
+}
+
+const content = document.getElementById('content')
+content.appendChild(grid)
+const solveButton = document.createElement('button')
+solveButton.onclick = startSolving
+solveButton.textContent = 'Ohoy!'
+content.appendChild(solveButton)
+
+focusCellAt(0, 0)
+loadCurrentValues()
