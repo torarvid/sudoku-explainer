@@ -4,13 +4,28 @@ export class SudokuHelper {
         for (let i = 0; i < 9; i++) {
             const row = []
             for (let j = 0; j < 9; j++) {
-                row.push(j)
+                row.push([1, 2, 3, 4, 5, 6, 7, 8, 9])
             }
             this.cells.push(row)
         }
     }
     get(row, col) {
         return this.cells[row][col]
+    }
+
+    delete(row, col, val) {
+        const arr = this.cells[row][col]
+        const index = arr.indexOf(val)
+        if (index < 0) {
+            return false
+        }
+        arr.splice(index, 1)
+        this.cells[row][col] = arr
+        return true
+    }
+
+    clear(row, col) {
+        this.cells[row][col] = []
     }
 }
 

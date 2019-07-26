@@ -1,3 +1,5 @@
+import * as algs from './algorithms/index.js'
+
 export function validate(input, helper) {
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
@@ -43,8 +45,27 @@ function isDone(puzzle) {
     return true
 }
 
-function updateHelper() {
-
+function updateHelper(puzzle, helper) {
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (puzzle[i][j] === 0) {
+                continue
+            }
+            for (let k = 0; k < 9; k++) {
+                helper.delete(i, k, puzzle[i][j])
+                helper.delete(k, j, puzzle[i][j])
+            }
+            const icorner = 3 * Math.floor(i/3)
+            const jcorner = 3 * Math.floor(j/3)
+            for (let k = 0; k < 3; k++) {
+                for (let l = 0; l < 3; l++) {
+                    const [hx, hy] = [icorner + k, jcorner + l]
+                    helper.delete(hx, hy, puzzle[i][j])
+                }
+            }
+            helper.clear(i, j)
+        }
+    }
 }
 
 export function solve(puzzle, helper) {
@@ -52,7 +73,7 @@ export function solve(puzzle, helper) {
         alert('ERROR IN INPUTDATA!')
         return
     }
-	const algorithms = []
+    const algorithms = [ new algs.AlgEasyUpdate() ]
 	// algorithms << AlgEasyUpdate.new
 	// algorithms << AlgSectorUpdate.new
 	// algorithms << AlgCheckOwning.new
@@ -61,17 +82,17 @@ export function solve(puzzle, helper) {
 
     while (!isDone(puzzle)) {
         const dict = {}
-        updateHelper()
+        updateHelper(puzzle, helper)
         let updated = false
         let error = false
         algorithms.forEach(alg => {
-            alg.run(dict)
+            alg.run(dict, puzzle, helper)
             if (Object.keys(dict).length > 0) {
                 if (!validate(puzzle, helper)) {
-                    alert(`ERROR IN ALGORITHM ${alg.name}`)
+                    alert(`ERROR IN ALGORITHM ${alg.constructor.name}`)
+                    error = true
                 }
                 updated = true
-                error = true
                 return
             }
         })

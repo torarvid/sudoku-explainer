@@ -113,31 +113,40 @@ document.onkeydown = (e) => {
             setFocusedValue(null)
             break
         case 'KeyT':
+        case 'Digit1':
             setFocusedValue('1')
             break
         case 'KeyY':
-            setFocusedValue('2')
+        case 'Digit2':
+                setFocusedValue('2')
             break
         case 'KeyU':
-            setFocusedValue('3')
+        case 'Digit3':
+                setFocusedValue('3')
             break
         case 'KeyG':
-            setFocusedValue('4')
+        case 'Digit4':
+                setFocusedValue('4')
             break
         case 'KeyH':
-            setFocusedValue('5')
+        case 'Digit5':
+                setFocusedValue('5')
             break
         case 'KeyJ':
-            setFocusedValue('6')
+        case 'Digit6':
+                setFocusedValue('6')
             break
         case 'KeyB':
-            setFocusedValue('7')
+        case 'Digit7':
+                setFocusedValue('7')
             break
         case 'KeyN':
-            setFocusedValue('8')
+        case 'Digit8':
+                setFocusedValue('8')
             break
         case 'KeyM':
-            setFocusedValue('9')
+        case 'Digit9':
+                setFocusedValue('9')
             break
         default:
             console.log(`Pressed ${e.code}`);
