@@ -1,152 +1,50 @@
 import { solve } from './solver.js'
 import { SudokuHelper } from './sudokuhelper.js'
+import { Puzzle } from './puzzle.js';
 
-function cellClick(e) {
-    focusCell(e.target)
-}
-
-function focusCell(cell) {
-    if (focusedCell) {
-        focusedCell.classList.remove('focusedCell')
-    }
-    focusedCell = cell
-    focusedCell.classList.add('focusedCell')
-}
-
-function createGridCell() {
-    const cell = document.createElement('td')
-    cell.classList.add('cell')
-    cell.onmousedown = cellClick
-    return cell
-}
-
-function createGridRow() {
-    const row = document.createElement('tr')
-    for (let i = 0; i < 9; i++) {
-        const cell = createGridCell()
-        row.appendChild(cell)
-    }
-    return row
-}
-
-function createGrid() {
-    const grid = document.createElement('table')
-    for (let i = 0; i < 9; i++) {
-        const row = createGridRow()
-        grid.appendChild(row)
-    }
-    return grid
-}
-
-const grid = createGrid()
-let focusedCell
-
-function focusCellAt(row, col) {
-    if (focusedCell) {
-        focusedCell.classList.remove('focusedCell')
-    }
-    const r = grid.childNodes[row]
-    focusedCell = r.childNodes[col]
-    focusedCell.classList.add('focusedCell')
-}
-
-function focusNextCell() {
-    if (!focusedCell) {
-        focusCellAt(0, 0)
-        return
-    }
-    if (focusedCell.nextSibling) {
-        focusCell(focusedCell.nextSibling)
-    } else {
-        const r = focusedCell.parentElement
-        if (!r.nextSibling) {
-            focusCellAt(0, 0)
-            return
-        }
-        focusCell(r.nextSibling.firstChild)
-    }
-}
-
-function getValues() {
-    const values = []
-    grid.childNodes.forEach(row => {
-        const rowValues = []
-        row.childNodes.forEach(cell => {
-            rowValues.push(cell.textContent | 0) // convert to number
-        })
-        values.push(rowValues)
-    })
-    return values
-}
-
-function saveCurrentValues() {
-    const values = getValues()
-    window.localStorage.setItem('grid', JSON.stringify(values));
-}
-
-function loadCurrentValues() {
-    const stringValues = window.localStorage.getItem('grid')
-    if (!stringValues) {
-        return
-    }
-    const values = JSON.parse(stringValues)
-    values.forEach((row, index) => {
-        const r = grid.childNodes[index]
-        row.forEach((value, rIndex) => {
-            const cell = r.childNodes[rIndex]
-            cell.textContent = value
-        })
-    })
-    return values
-}
-
-function setFocusedValue(value) {
-    focusedCell.textContent = value
-    focusNextCell()
-    saveCurrentValues()
-}
+const puzzle = new Puzzle()
 
 document.onkeydown = (e) => {
     switch (e.code) {
         case 'Tab':
         case 'Space':
-            setFocusedValue(null)
+            puzzle.setFocusedValue(null)
             break
         case 'KeyT':
         case 'Digit1':
-            setFocusedValue('1')
+            puzzle.setFocusedValue('1')
             break
         case 'KeyY':
         case 'Digit2':
-                setFocusedValue('2')
+                puzzle.setFocusedValue('2')
             break
         case 'KeyU':
         case 'Digit3':
-                setFocusedValue('3')
+                puzzle.setFocusedValue('3')
             break
         case 'KeyG':
         case 'Digit4':
-                setFocusedValue('4')
+                puzzle.setFocusedValue('4')
             break
         case 'KeyH':
         case 'Digit5':
-                setFocusedValue('5')
+                puzzle.setFocusedValue('5')
             break
         case 'KeyJ':
         case 'Digit6':
-                setFocusedValue('6')
+                puzzle.setFocusedValue('6')
             break
         case 'KeyB':
         case 'Digit7':
-                setFocusedValue('7')
+                puzzle.setFocusedValue('7')
             break
         case 'KeyN':
         case 'Digit8':
-                setFocusedValue('8')
+                puzzle.setFocusedValue('8')
             break
         case 'KeyM':
         case 'Digit9':
-                setFocusedValue('9')
+                puzzle.setFocusedValue('9')
             break
         default:
             console.log(`Pressed ${e.code}`);
@@ -155,17 +53,16 @@ document.onkeydown = (e) => {
 }
 
 function startSolving() {
-    const values = getValues()
     const helper = new SudokuHelper()
-    solve(values, helper)
+    solve(puzzle, helper)
 }
 
 const content = document.getElementById('content')
-content.appendChild(grid)
+content.appendChild(puzzle.grid)
 const solveButton = document.createElement('button')
 solveButton.onclick = startSolving
 solveButton.textContent = 'Ohoy!'
 content.appendChild(solveButton)
 
-focusCellAt(0, 0)
-loadCurrentValues()
+puzzle.focusCellAt(0, 0)
+puzzle.loadCurrentValues()

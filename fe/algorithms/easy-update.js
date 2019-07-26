@@ -6,10 +6,11 @@ export class AlgEasyUpdate {
                 if (!(helper.get(i, j).length === 1)) {
                     continue
                 }
+                state.updated = true
                 state.row = i
                 state.col = j
-                state.value = puzzle[i][j] = helper.get(i, j)[0]
-                state.reason = `(${i+1},${j+1}) set to ${puzzle[i][j]}, only possible value`
+                state.data = { row: i, col: j, value: helper.get(i, j)[0] }
+                state.reason = `(${i+1},${j+1}) set to ${state.data.value}, only possible value`
                 return state
             }
         }
