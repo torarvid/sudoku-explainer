@@ -55,8 +55,8 @@ export function solve(puzzle) {
     const algorithms = [
         new algs.AlgEasyUpdate(),
         new algs.AlgSectorUpdate(),
+        new algs.AlgCheckOwning(),
     ]
-	// algorithms << AlgCheckOwning.new
 	// algorithms << AlgCheckNakedTuple.new
 	// algorithms << AlgCheckHiddenTuple.new
 
@@ -79,7 +79,9 @@ export function solve(puzzle) {
         }
         if (state.updated) {
             alert(`${state.reason}`);
-            puzzle.setValueAndFocus(state.row, state.col, state.value)
+            if (state.hasOwnProperty('row') && state.hasOwnProperty('col') && state.value) {
+                puzzle.setValueAndFocus(state.row, state.col, state.value)
+            }
         } else {
             alert(`Can't update more`)
             break
