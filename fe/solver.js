@@ -47,31 +47,6 @@ function isDone(grid) {
     return true
 }
 
-function updateHelper(puzzle) {
-    const { helper } = puzzle
-    const grid = puzzle.getValues()
-    for (let i = 0; i < 9; i++) {
-        for (let j = 0; j < 9; j++) {
-            if (grid[i][j] === 0) {
-                continue
-            }
-            for (let k = 0; k < 9; k++) {
-                helper.delete(i, k, grid[i][j])
-                helper.delete(k, j, grid[i][j])
-            }
-            const icorner = 3 * Math.floor(i/3)
-            const jcorner = 3 * Math.floor(j/3)
-            for (let k = 0; k < 3; k++) {
-                for (let l = 0; l < 3; l++) {
-                    const [hx, hy] = [icorner + k, jcorner + l]
-                    helper.delete(hx, hy, grid[i][j])
-                }
-            }
-            helper.clear(i, j)
-        }
-    }
-}
-
 export function solve(puzzle) {
     if (!validate(puzzle)) {
         alert('ERROR IN INPUTDATA!')
