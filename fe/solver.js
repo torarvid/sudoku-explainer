@@ -56,8 +56,8 @@ export function solve(puzzle) {
         new algs.AlgEasyUpdate(),
         new algs.AlgSectorUpdate(),
         new algs.AlgCheckOwning(),
+        new algs.AlgCheckNakedTuple(),
     ]
-	// algorithms << AlgCheckNakedTuple.new
 	// algorithms << AlgCheckHiddenTuple.new
 
     while (!isDone(puzzle.getValues())) {
