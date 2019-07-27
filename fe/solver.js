@@ -1,6 +1,8 @@
 import * as algs from './algorithms/index.js'
 
-export function validate(grid, helper) {
+export function validate(puzzle) {
+    const { helper } = puzzle
+    const grid = puzzle.getValues()
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
             const num = grid[i][j]
@@ -45,7 +47,9 @@ function isDone(grid) {
     return true
 }
 
-function updateHelper(grid, helper) {
+function updateHelper(puzzle) {
+    const { helper } = puzzle
+    const grid = puzzle.getValues()
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
             if (grid[i][j] === 0) {
@@ -68,9 +72,8 @@ function updateHelper(grid, helper) {
     }
 }
 
-export function solve(puzzle, helper) {
-    const grid = puzzle.getValues()
-	if (!validate(grid, helper)) {
+export function solve(puzzle) {
+    if (!validate(puzzle)) {
         alert('ERROR IN INPUTDATA!')
         return
     }
@@ -83,11 +86,11 @@ export function solve(puzzle, helper) {
 
     while (!isDone(puzzle.getValues())) {
         const state = {}
-        updateHelper(puzzle.getValues(), helper)
+        puzzle.updateHelper()
         algorithms.forEach(alg => {
-            alg.run(state, puzzle, helper)
+            alg.run(state, puzzle)
             if (state.updated) {
-                if (!validate(puzzle.getValues(), helper)) {
+                if (!validate(puzzle)) {
                     alert(`ERROR IN ALGORITHM ${alg.constructor.name}`)
                     state.error = true
                 }
@@ -106,7 +109,7 @@ export function solve(puzzle, helper) {
         }
     }
 	if (isDone(puzzle.getValues())) {
-        if (validate(puzzle.getValues(), helper)) {
+        if (validate(puzzle)) {
             alert('Solved!')
         } else {
             alert('Invalid puzzle')

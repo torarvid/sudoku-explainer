@@ -1,5 +1,4 @@
 import { solve } from './solver.js'
-import { SudokuHelper } from './sudokuhelper.js'
 import { Puzzle } from './puzzle.js';
 
 const puzzle = new Puzzle()
@@ -53,15 +52,14 @@ document.onkeydown = (e) => {
 }
 
 function startSolving() {
-    const helper = new SudokuHelper()
-    solve(puzzle, helper)
+    solve(puzzle)
 }
 
 const content = document.getElementById('content')
 content.appendChild(puzzle.grid)
 const solveButton = document.createElement('button')
 solveButton.onclick = startSolving
-solveButton.textContent = 'Ohoy!'
+solveButton.textContent = 'Start solving!'
 content.appendChild(solveButton)
 
 puzzle.focusCellAt(0, 0)

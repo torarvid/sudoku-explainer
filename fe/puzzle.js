@@ -1,7 +1,10 @@
+import { SudokuHelper } from './sudokuhelper.js';
+
 export class Puzzle {
     constructor() {
         this.focusedCell = null
         this._grid = this.createGrid()
+        this.helper = new SudokuHelper()
     }
 
     get grid() {
@@ -73,7 +76,11 @@ export class Puzzle {
         this.grid.childNodes.forEach(row => {
             const rowValues = []
             row.childNodes.forEach(cell => {
-                rowValues.push(cell.textContent | 0) // convert to number
+                if (cell.childNodes.length && cell.childNodes[0].nodeName !== "#text") {
+                    rowValues.push(0)
+                } else {
+                    rowValues.push(cell.textContent | 0) // convert to number
+                }
             })
             values.push(rowValues)
         })
@@ -112,5 +119,57 @@ export class Puzzle {
         this.focusedCell.textContent = value
         this.focusNextCell()
         this.saveCurrentValues()
+    }
+
+    updateHelper() {
+        const vals = this.getValues()
+        for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                if (vals[i][j] === 0) {
+                    continue
+                }
+                for (let k = 0; k < 9; k++) {
+                    this.helper.delete(i, k, vals[i][j])
+                    this.helper.delete(k, j, vals[i][j])
+                }
+                const icorner = 3 * Math.floor(i/3)
+                const jcorner = 3 * Math.floor(j/3)
+                for (let k = 0; k < 3; k++) {
+                    for (let l = 0; l < 3; l++) {
+                        const [hx, hy] = [icorner + k, jcorner + l]
+                        this.helper.delete(hx, hy, vals[i][j])
+                    }
+                }
+                this.helper.clear(i, j)
+            }
+        }
+        for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                const values = this.helper.get(i, j)
+                if (values.length === 0) {
+                    continue // TODO remove existing subtable if exists
+                }
+                const tr = this.grid.childNodes[i]
+                const td = tr.childNodes[j]
+                const subtable = document.createElement('table')
+                subtable.classList.add('subtable')
+                for (let k = 0; k < 3; k++) {
+                    const r = document.createElement('tr')
+                    for (let l = 0; l < 3; l++) {
+                        const cell = document.createElement('td')
+                        const currentVal = 3 * k + l + 1
+                        if (values.indexOf(currentVal) >= 0) {
+                            cell.textContent = currentVal
+                        }
+                        r.appendChild(cell)
+                    }
+                    subtable.appendChild(r)
+                }
+                if (td.firstChild) {
+                    td.removeChild(td.firstChild)
+                }
+                td.appendChild(subtable)
+            }
+        }
     }
 }
