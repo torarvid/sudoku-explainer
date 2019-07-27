@@ -1,5 +1,6 @@
 import { solve } from './solver.js'
 import { Puzzle } from './puzzle.js';
+import { globalQ } from './message-queue.js';
 
 const puzzle = new Puzzle()
 
@@ -60,8 +61,17 @@ content.appendChild(puzzle.grid)
 content.appendChild(puzzle.entry)
 const solveButton = document.createElement('button')
 solveButton.onclick = startSolving
-solveButton.textContent = 'Start solving!'
+solveButton.textContent = 'Solve a step!'
 content.appendChild(solveButton)
+const messages = document.createElement('table')
+messages.classList.add('messages')
+content.appendChild(messages)
+globalQ.on('updated', (state) => {
+    const row = messages.insertRow(0)
+    const cell = document.createElement('td')
+    row.appendChild(cell)
+    cell.textContent = state.reason
+})
 
 puzzle.focusCellAt(0, 0)
 puzzle.loadCurrentValues()

@@ -1,4 +1,5 @@
 import * as algs from './algorithms/index.js'
+import { globalQ } from './message-queue.js';
 
 export function validate(puzzle) {
     const { helper } = puzzle
@@ -60,7 +61,14 @@ export function solve(puzzle) {
         new algs.AlgCheckHiddenTuple(),
     ]
 
-    while (!isDone(puzzle.getValues())) {
+    if (isDone(puzzle.getValues())) {
+        if (validate(puzzle)) {
+            globalQ.emit('updated', { reason: 'Solved!' })
+        } else {
+            alert('Invalid puzzle')
+        }
+    }
+    else {
         const state = {}
         puzzle.updateHelper()
         algorithms.some(alg => {
@@ -74,26 +82,18 @@ export function solve(puzzle) {
             }
             return false
         })
-        if (state.error) {
-            break
-        }
-        if (state.updated) {
-            alert(`${state.reason}`);
+        if (!state.error && state.updated) {
+            globalQ.emit('updated', state)
             if (state.hasOwnProperty('row') && state.hasOwnProperty('col') && state.value) {
                 puzzle.setValueAndFocus(state.row, state.col, state.value)
             }
-        } else {
-            alert(`Can't update more`)
-            break
+        } else if (!state.error) {
+            globalQ.emit('updated', { reason: `Can't update more` })
         }
     }
-	if (isDone(puzzle.getValues())) {
-        if (validate(puzzle)) {
-            alert('Solved!')
-        } else {
-            alert('Invalid puzzle')
-        }
+	if (state.error) {
+        alert('Something wrong with this puzzle (or this solver..)')
     } else {
-        alert(`I'm either too dumb to solve this or it is unsolvable`)
+        globalQ.emit('updated', { reason: `I'm either too dumb to solve this or it is unsolvable` })
     }
 }

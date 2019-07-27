@@ -53,3 +53,11 @@ td {
 .toggle-button.active {
     background: #333;
 }
+
+.messages tr:nth-child(odd) {
+    background: #eee;
+}
+
+.messages tr:nth-child(even) {
+    background: #aaa;
+}
