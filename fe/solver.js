@@ -81,8 +81,6 @@ export function solve(puzzle) {
         new algs.AlgEasyUpdate(),
         new algs.AlgSectorUpdate(),
     ]
-	// algorithms << AlgEasyUpdate.new
-	// algorithms << AlgSectorUpdate.new
 	// algorithms << AlgCheckOwning.new
 	// algorithms << AlgCheckNakedTuple.new
 	// algorithms << AlgCheckHiddenTuple.new
@@ -90,15 +88,16 @@ export function solve(puzzle) {
     while (!isDone(puzzle.getValues())) {
         const state = {}
         puzzle.updateHelper()
-        algorithms.forEach(alg => {
+        algorithms.some(alg => {
             alg.run(state, puzzle)
             if (state.updated) {
                 if (!validate(puzzle)) {
                     alert(`ERROR IN ALGORITHM ${alg.constructor.name}`)
                     state.error = true
                 }
-                return
+                return true
             }
+            return false
         })
         if (state.error) {
             break

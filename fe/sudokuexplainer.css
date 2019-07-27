@@ -2,6 +2,10 @@ table {
   border-collapse: collapse;
 }
 
+td {
+    padding: 0;
+}
+
 .cell {
   border: 1px solid black;
   width: 2rem;
@@ -15,6 +19,7 @@ table {
 
 .subtable {
     font-size: 0.4rem;
+    color: #888;
     width: 100%;
     height: 100%;
 }
