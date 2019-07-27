@@ -4,6 +4,7 @@ export class Puzzle {
     constructor() {
         this.focusedCell = null
         this._grid = this.createGrid()
+        this.entry = this.createEntry()
         this.helper = new SudokuHelper()
     }
 
@@ -13,6 +14,12 @@ export class Puzzle {
 
     cellClick(e) {
         this.focusCell(e.target)
+        const entryValue = [...this.entry.childNodes].find(e => {
+            return e.classList.contains('active')
+        })
+        if (entryValue) {
+            this.setFocusedValue((entryValue.textContent | 0) || null, { skipToNext: false })
+        }
     }
 
     focusCell(cell) {
@@ -71,6 +78,27 @@ export class Puzzle {
         return grid
     }
 
+    createEntry() {
+        const entry = document.createElement('div')
+        entry.classList.add('entry')
+        for (let i = 0; i < 10; i++) {
+            const btn = document.createElement('div')
+            btn.classList.add('toggle-button')
+            btn.textContent = i+1
+            btn.onclick = (e) => {
+                entry.childNodes.forEach(n => {
+                    if (btn !== n) {
+                        n.classList.remove('active')
+                    }
+                })
+                btn.classList.toggle('active')
+            }
+            entry.appendChild(btn)
+        }
+        entry.childNodes[entry.childNodes.length-1].textContent = 'X'
+        return entry
+    }
+
     getValues() {
         const values = []
         this.grid.childNodes.forEach(row => {
@@ -115,9 +143,11 @@ export class Puzzle {
         this.focusedCell.textContent = value
     }
 
-    setFocusedValue(value) {
+    setFocusedValue(value, { skipToNext = true }) {
         this.focusedCell.textContent = value
-        this.focusNextCell()
+        if (skipToNext) {
+            this.focusNextCell()
+        }
         this.saveCurrentValues()
     }
 

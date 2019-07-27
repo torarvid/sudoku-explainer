@@ -57,6 +57,7 @@ function startSolving() {
 
 const content = document.getElementById('content')
 content.appendChild(puzzle.grid)
+content.appendChild(puzzle.entry)
 const solveButton = document.createElement('button')
 solveButton.onclick = startSolving
 solveButton.textContent = 'Start solving!'

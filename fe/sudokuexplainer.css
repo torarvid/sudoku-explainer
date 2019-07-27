@@ -6,6 +6,10 @@ td {
     padding: 0;
 }
 
+#content {
+    width: 320px;
+}
+
 .cell {
   border: 1px solid black;
   width: 2rem;
@@ -30,4 +34,22 @@ td {
     height: 33%;
     text-align: center;
     vertical-align: middle;
+}
+
+.entry {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.entry .toggle-button {
+    width: 10px;
+    background: #ddd;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.toggle-button.active {
+    background: #333;
 }
