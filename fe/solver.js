@@ -77,7 +77,10 @@ export function solve(puzzle) {
         alert('ERROR IN INPUTDATA!')
         return
     }
-    const algorithms = [ new algs.AlgEasyUpdate() ]
+    const algorithms = [
+        new algs.AlgEasyUpdate(),
+        new algs.AlgSectorUpdate(),
+    ]
 	// algorithms << AlgEasyUpdate.new
 	// algorithms << AlgSectorUpdate.new
 	// algorithms << AlgCheckOwning.new
@@ -102,7 +105,7 @@ export function solve(puzzle) {
         }
         if (state.updated) {
             alert(`${state.reason}`);
-            puzzle.setValueAndFocus(state.data.row, state.data.col, state.data.value)
+            puzzle.setValueAndFocus(state.row, state.col, state.value)
         } else {
             alert(`Can't update more`)
             break

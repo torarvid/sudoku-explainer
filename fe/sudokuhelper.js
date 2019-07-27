@@ -27,32 +27,62 @@ export class SudokuHelper {
     clear(row, col) {
         this.cells[row][col] = []
     }
+
+    row(num, fn) {
+        if (fn) {
+            this.cells[num].forEach(fn)
+            return this
+        } else {
+            return this.cells[num]
+        }
+    }
+
+    col(num, fn) {
+        if (fn) {
+            for (let i = 0; i < 9; i++) {
+                fn(this.cells[i][num])
+            }
+            return this
+        } else {
+            const carr = []
+            this.col(num, n => carr.push(n))
+            return carr
+        }
+    }
+
+    square(num, fn) {
+        if (fn) {
+            const rowAnchor = 3 * Math.floor(num / 3)
+            const colAnchor = 3 * (num % 3)
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    fn(this.cells[i+rowAnchor][j+colAnchor])
+                }
+            }
+            return this
+        } else {
+            const sarr = []
+            this.square(num, n => sarr.push(n))
+            return sarr
+        }
+    }
 }
 
 /*
 
 class SudokuHelper < Array
-	def row( number )
-		if block_given?
-			self[ number ].each { |n| yield n }
-			self
-		else
-			return self[ number ]
-		end
-	end
-	
 	def row_with_index( number )
 		index = 0
-		row( number ) do |r| 
+		row( number ) do |r|
 			r.each { |n| yield n, index }
 			index += 1
 		end
 		self
 	end
-	
+
 	def row!( number )
 		edited = false
-		self[ number ].collect! do |n| 
+		self[ number ].collect! do |n|
 			val = n.dup
 			yield n
 			edited = val != n unless edited
@@ -60,27 +90,16 @@ class SudokuHelper < Array
 		end
 		return edited ? self[ number ] : nil
 	end
-	
-	def col( number )
-		if block_given?
-			(0...9).each { |r| yield self[ r ][ number ] }
-			self
-		else
-			carr = []
-			col( number ) { |r| carr << r }
-			return carr
-		end
-	end
-	
+
 	def col_with_index( number )
 		index = 0
 		col( number ) do |c|
 			c.each { |n| yield n, index }
-			index += 1	
+			index += 1
 		end
 		self
 	end
-	
+
 	def col!( number )
 		edited = false
 		(0...9).each do |r|
@@ -90,24 +109,7 @@ class SudokuHelper < Array
 		end
 		return edited ? col( number ) : nil
 	end
-	
-	def square( number )
-		if block_given?
-			cs = ( number % 3 ) * 3
-			rs = ( number / 3 ) * 3
-			(0...3).each do |m|
-				(0...3).each do |n|
-					yield self[ m + rs ][ n + cs ]
-				end
-			end
-			self
-		else
-			sarr = []
-			square( number ) { |n| sarr << n }
-			return sarr
-		end
-	end
-	
+
 	def square!( number )
 		cs = ( number % 3 ) * 3
 		rs = ( number / 3 ) * 3

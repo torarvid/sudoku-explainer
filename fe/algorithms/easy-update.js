@@ -9,8 +9,8 @@ export class AlgEasyUpdate {
                 state.updated = true
                 state.row = i
                 state.col = j
-                state.data = { row: i, col: j, value: helper.get(i, j)[0] }
-                state.reason = `(${i+1},${j+1}) set to ${state.data.value}, only possible value`
+                state.value = helper.get(i, j)[0]
+                state.reason = `(${i+1},${j+1}) set to ${state.value}, only possible value`
                 return state
             }
         }
