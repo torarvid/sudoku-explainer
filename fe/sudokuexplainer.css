@@ -2,6 +2,11 @@ table {
   border-collapse: collapse;
 }
 
+.grid {
+    width: 320px;
+    height: 320px;
+}
+
 td {
     padding: 0;
 }
