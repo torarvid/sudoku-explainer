@@ -1,5 +1,4 @@
 export class AlgCheckOwning {
-
     sqRow(helper, row, col) {
         const rowAnchor = 3 * Math.floor(row / 3)
         const colAnchor = 3 * Math.floor(col / 3)
@@ -23,11 +22,11 @@ export class AlgCheckOwning {
         const rowAnchor = 3 * Math.floor(row / 3)
         const colAnchor = 3 * Math.floor(col / 3)
         let ownInCol = new Set()
-        for (let r = rowAnchor; r < rowAnchor+3; r++) {
+        for (let r = rowAnchor; r < rowAnchor + 3; r++) {
             const own = new Set(helper.get(r, col))
             ownInCol = new Set([...ownInCol, ...own])
         }
-        for (let r = rowAnchor; r < rowAnchor+3; r++) {
+        for (let r = rowAnchor; r < rowAnchor + 3; r++) {
             for (let c = colAnchor; c < colAnchor + 3; c++) {
                 if (c === col) {
                     continue
@@ -40,7 +39,7 @@ export class AlgCheckOwning {
 
     run(state, { helper }) {
         for (let i = 0; i < 9; i++) {
-            for (let j = 0; j < 9; j+=3) {
+            for (let j = 0; j < 9; j += 3) {
                 const ownRow = this.sqRow(helper, i, j)
                 const taken = new Set()
                 for (let k = 0; k < 6; k++) {
@@ -55,8 +54,8 @@ export class AlgCheckOwning {
                 }
                 if (taken.size > 0) {
                     const rowsAnchor = 3 * Math.floor(i / 3)
-                    const square = `(${rowsAnchor+1}, ${j+1}) -> (${rowsAnchor+3}, ${j+3})`
-                    state.reason = `${[...taken]} taken in row ${i+1} by square ${square}`
+                    const square = `(${rowsAnchor + 1}, ${j + 1}) -> (${rowsAnchor + 3}, ${j + 3})`
+                    state.reason = `${[...taken]} taken in row ${i + 1} by square ${square}`
                     state.updated = true
                     return state
                 }
@@ -73,8 +72,8 @@ export class AlgCheckOwning {
                 }
                 if (taken.size > 0) {
                     const rowAnchor = 3 * Math.floor(i / 3)
-                    const square = `(${j+1}, ${rowAnchor+1}) -> (${j+3}, ${rowAnchor+3})`
-                    state.reason = `${[...taken]} taken in col ${i+1} by square ${square}`
+                    const square = `(${j + 1}, ${rowAnchor + 1}) -> (${j + 3}, ${rowAnchor + 3})`
+                    state.reason = `${[...taken]} taken in col ${i + 1} by square ${square}`
                     state.updated = true
                     return state
                 }

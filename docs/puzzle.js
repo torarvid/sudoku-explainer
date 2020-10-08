@@ -1,4 +1,4 @@
-import { SudokuHelper } from './sudokuhelper.js';
+import { SudokuHelper } from './sudokuhelper.js'
 
 export class Puzzle {
     constructor() {
@@ -18,7 +18,7 @@ export class Puzzle {
             return e.classList.contains('active')
         })
         if (entryValue) {
-            this.setFocusedValue((entryValue.textContent | 0) || null, { skipToNext: false })
+            this.setFocusedValue(entryValue.textContent | 0 || null, { skipToNext: false })
         }
     }
 
@@ -87,8 +87,8 @@ export class Puzzle {
         for (let i = 0; i < 10; i++) {
             const btn = document.createElement('div')
             btn.classList.add('toggle-button')
-            btn.textContent = i+1
-            btn.onclick = (e) => {
+            btn.textContent = i + 1
+            btn.onclick = e => {
                 entry.childNodes.forEach(n => {
                     if (btn !== n) {
                         n.classList.remove('active')
@@ -98,7 +98,7 @@ export class Puzzle {
             }
             entry.appendChild(btn)
         }
-        entry.childNodes[entry.childNodes.length-1].textContent = 'X'
+        entry.childNodes[entry.childNodes.length - 1].textContent = 'X'
         return entry
     }
 
@@ -107,7 +107,7 @@ export class Puzzle {
         this.grid.childNodes.forEach(row => {
             const rowValues = []
             row.childNodes.forEach(cell => {
-                if (cell.childNodes.length && cell.childNodes[0].nodeName !== "#text") {
+                if (cell.childNodes.length && cell.childNodes[0].nodeName !== '#text') {
                     rowValues.push(0)
                 } else {
                     rowValues.push(cell.textContent | 0) // convert to number
@@ -120,7 +120,7 @@ export class Puzzle {
 
     saveCurrentValues() {
         const values = this.getValues()
-        window.localStorage.setItem('grid', JSON.stringify(values));
+        window.localStorage.setItem('grid', JSON.stringify(values))
     }
 
     loadCurrentValues() {
@@ -165,8 +165,8 @@ export class Puzzle {
                     this.helper.delete(i, k, vals[i][j])
                     this.helper.delete(k, j, vals[i][j])
                 }
-                const icorner = 3 * Math.floor(i/3)
-                const jcorner = 3 * Math.floor(j/3)
+                const icorner = 3 * Math.floor(i / 3)
+                const jcorner = 3 * Math.floor(j / 3)
                 for (let k = 0; k < 3; k++) {
                     for (let l = 0; l < 3; l++) {
                         const [hx, hy] = [icorner + k, jcorner + l]

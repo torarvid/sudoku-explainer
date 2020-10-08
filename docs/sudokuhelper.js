@@ -85,7 +85,7 @@ export class SudokuHelper {
             const colAnchor = 3 * (num % 3)
             for (let i = 0; i < 3; i++) {
                 for (let j = 0; j < 3; j++) {
-                    fn(this.cells[i+rowAnchor][j+colAnchor], i * 3 + j)
+                    fn(this.cells[i + rowAnchor][j + colAnchor], i * 3 + j)
                 }
             }
             return this
@@ -102,8 +102,8 @@ export class SudokuHelper {
         let edited = false
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
-                const oldVal = [...this.cells[i+rowAnchor][j+colAnchor]]
-                const newVal = fn(this.cells[i+rowAnchor][j+colAnchor], i * 3 + j)
+                const oldVal = [...this.cells[i + rowAnchor][j + colAnchor]]
+                const newVal = fn(this.cells[i + rowAnchor][j + colAnchor], i * 3 + j)
                 if (!edited && JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
                     edited = true
                 }

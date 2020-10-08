@@ -1,10 +1,10 @@
 import { solve } from './solver.js'
-import { Puzzle } from './puzzle.js';
-import { globalQ } from './message-queue.js';
+import { Puzzle } from './puzzle.js'
+import { globalQ } from './message-queue.js'
 
 const puzzle = new Puzzle()
 
-document.onkeydown = (e) => {
+document.onkeydown = e => {
     switch (e.code) {
         case 'Tab':
         case 'Space':
@@ -16,38 +16,38 @@ document.onkeydown = (e) => {
             break
         case 'KeyY':
         case 'Digit2':
-                puzzle.setFocusedValue('2')
+            puzzle.setFocusedValue('2')
             break
         case 'KeyU':
         case 'Digit3':
-                puzzle.setFocusedValue('3')
+            puzzle.setFocusedValue('3')
             break
         case 'KeyG':
         case 'Digit4':
-                puzzle.setFocusedValue('4')
+            puzzle.setFocusedValue('4')
             break
         case 'KeyH':
         case 'Digit5':
-                puzzle.setFocusedValue('5')
+            puzzle.setFocusedValue('5')
             break
         case 'KeyJ':
         case 'Digit6':
-                puzzle.setFocusedValue('6')
+            puzzle.setFocusedValue('6')
             break
         case 'KeyB':
         case 'Digit7':
-                puzzle.setFocusedValue('7')
+            puzzle.setFocusedValue('7')
             break
         case 'KeyN':
         case 'Digit8':
-                puzzle.setFocusedValue('8')
+            puzzle.setFocusedValue('8')
             break
         case 'KeyM':
         case 'Digit9':
-                puzzle.setFocusedValue('9')
+            puzzle.setFocusedValue('9')
             break
         default:
-            console.log(`Pressed ${e.code}`);
+            console.log(`Pressed ${e.code}`)
             break
     }
 }
@@ -66,7 +66,7 @@ content.appendChild(solveButton)
 const messages = document.createElement('table')
 messages.classList.add('messages')
 content.appendChild(messages)
-globalQ.on('updated', (state) => {
+globalQ.on('updated', state => {
     const row = messages.insertRow(0)
     const cell = document.createElement('td')
     row.appendChild(cell)

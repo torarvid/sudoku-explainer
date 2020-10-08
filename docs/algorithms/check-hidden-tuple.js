@@ -1,4 +1,5 @@
-export class AlgCheckHiddenTuple { // only 2-tuples for now...
+export class AlgCheckHiddenTuple {
+    // only 2-tuples for now...
     run(state, { helper }) {
         for (let i = 0; i < 9; i++) {
             const occurRow = {}
@@ -17,8 +18,11 @@ export class AlgCheckHiddenTuple { // only 2-tuples for now...
             })
             let numbers = Object.keys(occurRow)
             for (let j = 0; j < numbers.length; j++) {
-                for (let k = j+1; k < numbers.length; k++) {
-                    if (occurRow[numbers[j]] === occurRow[numbers[k]] && occurRow[numbers[j]].length === 2) {
+                for (let k = j + 1; k < numbers.length; k++) {
+                    if (
+                        occurRow[numbers[j]] === occurRow[numbers[k]] &&
+                        occurRow[numbers[j]].length === 2
+                    ) {
                         const row = i
                         const [l, m] = occurRow[numbers[j]]
                         if (helper.get(row, l).length > 2) {
@@ -31,7 +35,7 @@ export class AlgCheckHiddenTuple { // only 2-tuples for now...
                         }
                         if (state.updated) {
                             const tuple = `(${numbers[j]}, ${numbers[k]})`
-                            state.reason = `found hidden tuple ${tuple} in row ${row+1}`
+                            state.reason = `found hidden tuple ${tuple} in row ${row + 1}`
                             return state
                         }
                     }
@@ -39,8 +43,11 @@ export class AlgCheckHiddenTuple { // only 2-tuples for now...
             }
             numbers = Object.keys(occurCol)
             for (let j = 0; j < numbers.length; j++) {
-                for (let k = j+1; k < numbers.length; k++) {
-                    if (occurCol[numbers[j]] === occurCol[numbers[k]] && occurCol[numbers[j]].length === 2) {
+                for (let k = j + 1; k < numbers.length; k++) {
+                    if (
+                        occurCol[numbers[j]] === occurCol[numbers[k]] &&
+                        occurCol[numbers[j]].length === 2
+                    ) {
                         const col = i
                         const [l, m] = occurCol[numbers[j]]
                         if (helper.get(l, col).length > 2) {
@@ -53,7 +60,7 @@ export class AlgCheckHiddenTuple { // only 2-tuples for now...
                         }
                         if (state.updated) {
                             const tuple = `(${numbers[j]}, ${numbers[k]})`
-                            state.reason = `found hidden tuple ${tuple} in col ${col+1}`
+                            state.reason = `found hidden tuple ${tuple} in col ${col + 1}`
                             return state
                         }
                     }

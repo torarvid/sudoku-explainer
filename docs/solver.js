@@ -1,5 +1,5 @@
 import * as algs from './algorithms/index.js'
-import { globalQ } from './message-queue.js';
+import { globalQ } from './message-queue.js'
 
 export function validate(puzzle) {
     const { helper } = puzzle
@@ -34,7 +34,7 @@ export function validate(puzzle) {
             }
         }
     }
-	return true
+    return true
 }
 
 function isDone(grid) {
@@ -67,8 +67,7 @@ export function solve(puzzle) {
         } else {
             alert('Invalid puzzle')
         }
-    }
-    else {
+    } else {
         const state = {}
         puzzle.updateHelper()
         algorithms.some(alg => {
@@ -91,7 +90,7 @@ export function solve(puzzle) {
             globalQ.emit('updated', { reason: `Can't update more` })
         }
     }
-	if (state.error) {
+    if (state.error) {
         alert('Something wrong with this puzzle (or this solver..)')
     } else {
         globalQ.emit('updated', { reason: `I'm either too dumb to solve this or it is unsolvable` })

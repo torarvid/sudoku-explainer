@@ -1,0 +1,17 @@
+trailingComma: 'all'
+singleQuote: true
+tabWidth: 4
+semi: false
+arrowParens: avoid
+printWidth: 100
+overrides:
+  - files: ['*.css']
+    options:
+      tabWidth: 4
+  - files: ['*.yml', '*.yaml', '*.json']
+    options:
+      tabWidth: 2
+  - files: ['*.md']
+    options:
+      tabWidth: 4
+      proseWrap: always

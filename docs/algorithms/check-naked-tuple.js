@@ -11,7 +11,7 @@ export class AlgCheckNakedTuple {
             const colAnchor = 3 * (i % 3)
             for (let j = 0; j < 3; j++) {
                 for (let k = 0; k < 3; k++) {
-                    currentSquare.push(helper.get(j+rowAnchor, k+colAnchor))
+                    currentSquare.push(helper.get(j + rowAnchor, k + colAnchor))
                 }
             }
             const tdict = { row: currentRow, col: currentCol, square: currentSquare }
@@ -34,7 +34,7 @@ export class AlgCheckNakedTuple {
     }
 
     remove(state, helper, value, index, str) {
-        switch(str) {
+        switch (str) {
             case 'row':
                 state.updated = !!helper.rowMap(index, (r, col) => {
                     if (JSON.stringify(value) !== JSON.stringify(r)) {
@@ -67,6 +67,6 @@ export class AlgCheckNakedTuple {
                 })
                 break
         }
-        state.reason = `found tuple ${value} in ${str} ${index+1}`
+        state.reason = `found tuple ${value} in ${str} ${index + 1}`
     }
 }
