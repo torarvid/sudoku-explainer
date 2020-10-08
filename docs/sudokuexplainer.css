@@ -1,19 +1,19 @@
 table {
     border-collapse: collapse;
-    border-top: 2px solid black;
-    border-left: 2px solid black;
 }
 
 .grid {
     width: 320px;
     height: 320px;
+    border-top: 2px solid black;
+    border-left: 2px solid black;
 }
 
-tr:nth-child(3n) {
+.row:nth-child(3n + 1) {
     border-bottom: 2px solid black;
 }
 
-col:nth-child(3n - 1) {
+col:nth-child(3n) {
     border-right: 2px solid black;
 }
 
@@ -30,6 +30,7 @@ td {
     width: 2rem;
     height: 2rem;
     text-align: center;
+    font: 1.4rem 'Roboto Sans', sans-serif;
 }
 
 .focusedCell {
@@ -37,7 +38,7 @@ td {
 }
 
 .subtable {
-    font-size: 0.4rem;
+    font: 600 0.4rem 'Roboto Sans', sans-serif;
     color: #888;
     width: 100%;
     height: 100%;

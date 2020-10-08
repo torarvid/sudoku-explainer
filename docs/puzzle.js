@@ -31,7 +31,7 @@ export class Puzzle {
     }
 
     focusCellAt(row, col) {
-        const r = this.grid.childNodes[row]
+        const r = this.grid.getElementsByClassName('row')[row]
         const cell = r.childNodes[col]
         this.focusCell(cell)
     }
@@ -62,6 +62,7 @@ export class Puzzle {
 
     createGridRow() {
         const row = document.createElement('tr')
+        row.classList.add('row')
         for (let i = 0; i < 9; i++) {
             const cell = this.createGridCell()
             row.appendChild(cell)
@@ -72,9 +73,13 @@ export class Puzzle {
     createGrid() {
         const grid = document.createElement('table')
         grid.classList.add('grid')
+        const colgroup = document.createElement('colgroup')
         for (let i = 0; i < 9; i++) {
             const col = document.createElement('col')
-            grid.appendChild(col)
+            colgroup.appendChild(col)
+        }
+        grid.appendChild(colgroup)
+        for (let i = 0; i < 9; i++) {
             const row = this.createGridRow()
             grid.appendChild(row)
         }
@@ -104,7 +109,8 @@ export class Puzzle {
 
     getValues() {
         const values = []
-        this.grid.childNodes.forEach(row => {
+        const rows = [...this.grid.getElementsByClassName('row')]
+        rows.forEach(row => {
             const rowValues = []
             row.childNodes.forEach(cell => {
                 if (cell.childNodes.length && cell.childNodes[0].nodeName !== '#text') {
@@ -130,7 +136,7 @@ export class Puzzle {
         }
         const values = JSON.parse(stringValues)
         values.forEach((row, index) => {
-            const r = this.grid.childNodes[index]
+            const r = this.grid.getElementsByClassName('row')[index]
             row.forEach((value, rIndex) => {
                 const cell = r.childNodes[rIndex]
                 if (value !== 0) {
@@ -146,7 +152,7 @@ export class Puzzle {
         this.focusedCell.textContent = value
     }
 
-    setFocusedValue(value, { skipToNext = true }) {
+    setFocusedValue(value, { skipToNext = true } = {}) {
         this.focusedCell.textContent = value
         if (skipToNext) {
             this.focusNextCell()
@@ -182,7 +188,7 @@ export class Puzzle {
                 if (values.length === 0) {
                     continue // TODO remove existing subtable if exists
                 }
-                const tr = this.grid.childNodes[i]
+                const tr = this.grid.getElementsByClassName('row')[i]
                 const td = tr.childNodes[j]
                 const subtable = document.createElement('table')
                 subtable.classList.add('subtable')
