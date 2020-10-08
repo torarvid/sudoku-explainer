@@ -31,6 +31,7 @@ button {
     border-radius: 2px;
     background-color: white;
     font-size: 18px;
+    touch-action: manipulation;
 }
 
 #content {
