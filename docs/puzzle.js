@@ -73,6 +73,8 @@ export class Puzzle {
         const grid = document.createElement('table')
         grid.classList.add('grid')
         for (let i = 0; i < 9; i++) {
+            const col = document.createElement('col')
+            grid.appendChild(col)
             const row = this.createGridRow()
             grid.appendChild(row)
         }

@@ -1,10 +1,20 @@
 table {
-  border-collapse: collapse;
+    border-collapse: collapse;
+    border-top: 2px solid black;
+    border-left: 2px solid black;
 }
 
 .grid {
     width: 320px;
     height: 320px;
+}
+
+tr:nth-child(3n) {
+    border-bottom: 2px solid black;
+}
+
+col:nth-child(3n - 1) {
+    border-right: 2px solid black;
 }
 
 td {
